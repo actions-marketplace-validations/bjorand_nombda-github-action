@@ -1,0 +1,19 @@
+name: 'Nombda hook'
+description: 'GitHub Action to trigger Nombda hook'
+author: 'Benjamin Jorand <benjamin.jorand@gmail.com>'
+branding:
+  icon: 'hexagon'
+  color: 'red'
+inputs:
+  NOMBDA_TOKEN:
+    description: 'Nombda token'
+  URL:
+    description: 'Nombda server URL'
+  HOOK:
+    description: 'Hook to run'
+  ACTION:
+    description: 'Action to run in hook'
+
+runs:
+  using: 'docker'
+  image: './cli/Dockerfile'
