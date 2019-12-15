@@ -13,11 +13,11 @@ inputs:
     description: 'Hook to run'
   action:
     description: 'Action to run in hook'
-envs:
-  TOKEN: ${{ inputs.token }}
-  URL: ${{ inputs.url }}
-  HOOK: ${{ inputs.hook }}
-  ACTION: ${{ inputs.action }}
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  env:
+    TOKEN: ${{ inputs.token }}
+    URL: ${{ inputs.url }}
+    HOOK: ${{ inputs.hook }}
+    ACTION: ${{ inputs.action }}
