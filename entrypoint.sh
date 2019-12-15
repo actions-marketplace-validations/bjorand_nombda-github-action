@@ -2,9 +2,9 @@
 
 # set -e
 
-if test -z $NOMBDA_TOKEN
+if test -z $TOKEN
 then
-  echo "::error url=$URL,hook=$HOOK,action=$ACTION::nombda_token parameter is empty"
+  echo "::error url=$URL,hook=$HOOK,action=$ACTION::token parameter is empty"
   exit 1
 fi
 
@@ -27,7 +27,7 @@ then
 fi
 
 # Capture output
-output=$( sh -c "curl -f -s -H\"Auth-token ${NOMBDA_TOKEN}\" -XPOST ${URL}/hooks/${HOOK}/${ACTION}")
+output=$( sh -c "curl -f -s -H\"Auth-token ${TOKEN}\" -XPOST ${URL}/hooks/${HOOK}/${ACTION}")
 ret=$?
 if test $ret -gt 0
 then

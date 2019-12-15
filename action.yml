@@ -5,7 +5,7 @@ branding:
   icon: 'hexagon'
   color: 'red'
 inputs:
-  nombda_token:
+  token:
     description: 'Nombda token'
   url:
     description: 'Nombda server URL'
@@ -14,7 +14,7 @@ inputs:
   action:
     description: 'Action to run in hook'
 envs:
-  NOMBDA_TOKEN: ${{ inputs.nombda_token }}
+  TOKEN: ${{ inputs.token }}
   URL: ${{ inputs.url }}
   HOOK: ${{ inputs.hook }}
   ACTION: ${{ inputs.action }}
