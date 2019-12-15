@@ -27,7 +27,7 @@ then
 fi
 
 # Capture output
-output=$( sh -c "curl -f -s -H\"Auth-token ${TOKEN}\" -XPOST ${URL}/hooks/${HOOK}/${ACTION}")
+output=$( sh -c "curl -f -s -H\"Auth-token: ${TOKEN}\" -XPOST ${URL}/hooks/${HOOK}/${ACTION}")
 ret=$?
 if test $ret -gt 0
 then
