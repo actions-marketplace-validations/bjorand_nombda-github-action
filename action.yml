@@ -5,15 +5,19 @@ branding:
   icon: 'hexagon'
   color: 'red'
 inputs:
-  NOMBDA_TOKEN:
+  nombda_token:
     description: 'Nombda token'
-  URL:
+  url:
     description: 'Nombda server URL'
-  HOOK:
+  hook:
     description: 'Hook to run'
-  ACTION:
+  action:
     description: 'Action to run in hook'
-
+envs:
+  NOMBDA_TOKEN: ${{ inputs.nombda_token }}
+  URL: ${{ inputs.url }}
+  HOOK: ${{ inputs.hook }}
+  ACTION: ${{ inputs.action }}
 runs:
   using: 'docker'
   image: 'Dockerfile'
