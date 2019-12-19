@@ -21,3 +21,4 @@ runs:
     URL: ${{ inputs.url }}
     HOOK: ${{ inputs.hook }}
     ACTION: ${{ inputs.action }}
+    TIMEOUT: ${{ inputs.timeout }}

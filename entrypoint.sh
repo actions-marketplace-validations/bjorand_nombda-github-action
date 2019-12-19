@@ -2,6 +2,13 @@
 
 # set -e
 
+if test -z $TIMEOUT
+then
+  TIMEOUT=60
+fi
+
+START=$(date +%s)
+
 if test -z $TOKEN
 then
   echo "::error url=$URL,hook=$HOOK,action=$ACTION::token parameter is empty"
@@ -26,12 +33,31 @@ then
   exit 1
 fi
 
-# Capture output
-output=$( sh -c "curl -f -s -H\"Auth-token: ${TOKEN}\" -XPOST ${URL}/hooks/${HOOK}/${ACTION}")
-ret=$?
-if test $ret -gt 0
+# Trigger hook and get job id
+out=$(curl -H"Auth-token: ${TOKEN}" -XPOST ${URL}/hooks/${HOOK}/${ACTION} --show-error)
+id=$(echo $out | jq -r .id)
+if test $? -gt 0 || test "$id" == "" || test "$id" == "null"
 then
-  echo "::error url=$URL,hook=$HOOK,action=$ACTION::unable to trigger hook: $output"
-  exit $ret
+  echo "::error url=$URL,hook=$HOOK,action=$ACTION::unable to trigger hook $out"
+  exit 1
 fi
-echo $output
+
+echo "Started hook $HOOK/$ACTION with id $id"
+
+while true;
+do
+  now=$(date +%s)
+  if test $now -gt $(($START+$TIMEOUT))
+  then
+    echo "::error url=$URL,hook=$HOOK,action=$ACTION::timeout reached"
+    exit 1
+  fi
+  completed=$(curl -sfH"Auth-Token: ${TOKEN}" ${URL}/hooks/${HOOK}/${ACTION}/$id | jq -r .run.Completed)
+  if test "$completed" == "true"
+  then
+    exitCode=$(curl -sfH "Auth-Token: ${TOKEN}" ${URL}/hooks/${HOOK}/${ACTION}/$id | jq -r .run.ExitCode)
+    curl -sfH "Auth-Token: ${TOKEN}" ${URL}/hooks/${HOOK}/${ACTION}/${id}/log
+    exit $exitCode
+  fi
+  sleep 0.5
+done
