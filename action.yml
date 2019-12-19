@@ -2,7 +2,7 @@ name: 'Nombda hook'
 description: 'GitHub Action to trigger Nombda hook'
 author: 'Benjamin Jorand <benjamin.jorand@gmail.com>'
 branding:
-  icon: 'hexagon'
+  icon: 'chevron-right'
   color: 'red'
 inputs:
   token:
